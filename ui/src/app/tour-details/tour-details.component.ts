@@ -19,7 +19,11 @@ import { Tour } from '../shared/models/tour';
               <th>Latitude</th>
               <th>Longitude</th>
               <th>Timestamp</th>
+
+            
+
               <th>Internationale Fahrt erlaubt<th>
+
             </tr>
           </thead>
           <tbody>
