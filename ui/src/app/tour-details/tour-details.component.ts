@@ -8,7 +8,7 @@ import { Tour } from '../shared/models/tour';
   selector: 'app-details',
   imports: [CommonModule],
   template: `
-    <article>
+      <article>
       <section class="listing-features">
         <h2 class="section-heading">Waypoints of tour {{ tour?.tourId }}</h2>
 
@@ -19,7 +19,11 @@ import { Tour } from '../shared/models/tour';
               <th>Latitude</th>
               <th>Longitude</th>
               <th>Timestamp</th>
+
             
+
+              <th>Internationale Fahrt erlaubt<th>
+
             </tr>
           </thead>
           <tbody>
@@ -42,7 +46,7 @@ import { Tour } from '../shared/models/tour';
 })
 
 export class TourDetailsComponent {
-  route: ActivatedRoute = inject(ActivatedRoute);
+  private route: ActivatedRoute = inject(ActivatedRoute);
   private ledgerService = inject(LedgerService);
 
   public get housingService() {
