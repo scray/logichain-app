@@ -10,7 +10,32 @@ import { Tour } from '../shared/models/tour';
   template: `
     <article>
       <section class="listing-features">
-        <h2 class="section-heading">Waypoints of tour {{tour?.tourId}}</h2>
+        <h2 class="section-heading">Waypoints of tour {{ tour?.tourId }}</h2>
+
+        <table *ngIf="(tour?.waypoints?.length || 0) > 0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Timestamp</th>
+              <th>Internationale Fahrt erlaubt?</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let wp of tour?.waypoints ?? []; index as i">
+              <td>{{ i + 1 }}</td>
+              <td>{{ wp.latitude }}</td>
+              <td>{{ wp.longitude }}</td>
+              <td>{{ wp.timestamp }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p *ngIf="(tour?.waypoints?.length || 0) === 0">
+          No waypoints available for this tour.
+        </p>
       </section>
     </article>
   `,
