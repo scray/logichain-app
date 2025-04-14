@@ -12,6 +12,18 @@ export default class LedgerService {
   }
   async getTourById(id: string): Promise<Tour | undefined> {
     const data = await fetch(`${this.url}/${id}`);
-    return (await data.json()) ?? {};
+    const tour: Tour = await data.json();
+
+    // 🛠 Feste Werte für internationaleFahrt setzen (einmal pro Waypoint)
+    tour.waypoints = tour.waypoints?.map((wp) => ({
+      ...wp,
+      internationaleFahrt: [{
+        eu: true,
+        schweiz: false,
+        nichtEu: false,
+      }],
+    })) ?? [];
+
+    return tour;
   }
 }

@@ -1,14 +1,15 @@
-import {Component, inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import LedgerService from '../logbook.service';
 import { Tour } from '../shared/models/tour';
+import { Waypoint } from '../shared/models/waypoint';
 
 @Component({
   selector: 'app-details',
   imports: [CommonModule],
   template: `
-      <article>
+    <article>
       <section class="listing-features">
         <h2 class="section-heading">Waypoints of tour {{ tour?.tourId }}</h2>
 
@@ -19,11 +20,7 @@ import { Tour } from '../shared/models/tour';
               <th>Latitude</th>
               <th>Longitude</th>
               <th>Timestamp</th>
-
-            
-
-              <th>Internationale Fahrt erlaubt<th>
-
+              <th>Internationale Fahrt erlaubt</th>
             </tr>
           </thead>
           <tbody>
@@ -32,6 +29,25 @@ import { Tour } from '../shared/models/tour';
               <td>{{ wp.latitude }}</td>
               <td>{{ wp.longitude }}</td>
               <td>{{ wp.timestamp }}</td>
+              <td>
+                <button class="button-3"
+                [ngClass]="{'active': wp.internationaleFahrt[0].eu}"
+                (click)="toggleFahrt(wp,'eu')">EU: {{wp.internationaleFahrt[0].eu ? 'Erlaubt' : 'Nicht erlaubt'}}</button>
+
+                <button class="button-3"
+                [ngClass]="{'active': wp.internationaleFahrt[0].schweiz}"
+    (click)="toggleFahrt(wp, 'schweiz')">Schweiz: {{wp.internationaleFahrt[0].schweiz ? 'Erlaubt' : 'Nicht Erlaubt'}}</button>
+
+                <button class="button-3"
+                [ngClass]="{'active': wp.internationaleFahrt[0].nichtEu}"
+    (click)="toggleFahrt(wp, 'nichtEu')"
+                >Außerhalb der EU: {{wp.internationaleFahrt[0].nichtEu ? 'Erlaubt' : 'Nicht Erlaubt'}}</button>
+            
+            
+            </td>
+
+              
+                
             </tr>
           </tbody>
         </table>
@@ -46,6 +62,12 @@ import { Tour } from '../shared/models/tour';
 })
 
 export class TourDetailsComponent {
+  toggleFahrt(wp: any, key: 'eu' | 'schweiz' | 'nichtEu') {
+    if (wp?.internationaleFahrt?.[0]) {
+      wp.internationaleFahrt[0][key] = !wp.internationaleFahrt[0][key];
+    }
+  }
+  
   private route: ActivatedRoute = inject(ActivatedRoute);
   private ledgerService = inject(LedgerService);
 
@@ -57,10 +79,11 @@ export class TourDetailsComponent {
   }
 
   tour: Tour | undefined;
+
   constructor() {
     const tourId = this.route.snapshot.params['id'];
-
-    this.housingService.getTourById(tourId).then((tour) =>
-       {      this.tour = tour;    });
+    this.housingService.getTourById(tourId).then((tour) => {
+      this.tour = tour;
+    });
   }
 }

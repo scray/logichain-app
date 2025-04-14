@@ -1,7 +1,8 @@
 export interface InternationaleFahrt{
-    eu:true;
-    schweiz: true;
-    nichtEu: false;
+    eu:boolean;
+    schweiz: boolean;
+    nichtEu: boolean;
+    
 
 
 }

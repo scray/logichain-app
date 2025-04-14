@@ -16,4 +16,19 @@ table {
   tr:hover {
     background-color: #fafafa;
   }
-  
+
+
+  .button-3 {
+    background-color: #e70a0a;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .button-3.active {
+    background-color: #069a41; /* Rot */
+    color: white;
+    border-color: #000000f2;
+  }  
