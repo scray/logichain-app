@@ -7,4 +7,6 @@ export interface Tour {
     vehiceId?: string;
     startTime: number;
     endTime: number;
-  }
+    internationaleFahrten?: boolean;
+
+}
