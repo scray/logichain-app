@@ -24,3 +24,16 @@ button.primary {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+table.modern-table th.mat-column-number,
+table.modern-table td.mat-column-number {
+  /* halbtransparentes Schwarz */
+  color: rgba(0,0,0,0.5) !important;
+  
+}
+
+/* ------------------------------------------------------------------
+   Alle anderen Spalten fetter
+   ------------------------------------------------------------------ */
+

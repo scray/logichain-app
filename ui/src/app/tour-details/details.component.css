@@ -1,19 +1,143 @@
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 1em 0;
-  }
-  
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-  }
-  
-  thead {
-    background-color: #f4f4f4;
-  }
-  
-  tr:hover {
-    background-color: #fafafa;
-  }
-  
+.layout-with-sidebar {
+  display: flex;
+  height: 100vh;     /* bleibt */
+  width: 100%;       /* ← sorgt dafür, dass es immer die volle Breite nutzt */
+}
+
+
+/* Roter Sidebar-Balken */
+/* --- Sidebar Tasks --- */
+.sidebar {
+  /* schon vorhanden: width, background-color */
+  flex: 0 0 15%;
+  background-color: #E10A0A;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;             /* innenabstand links/rechts für Task-Boxes */
+}
+
+/* Überschrift „Aufgaben“ */
+.tasks-container {
+  margin-top: 16px;          /* etwas Abstand von oben */
+}
+
+.tasks-title {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-bottom: 30px;
+  font-weight: bold;
+}
+
+/* einzelne Task-Boxen */
+.task-item {
+  display: flex;
+  align-items: center;
+  background: white;         /* helle Box auf rotem Grund */
+  border-radius: 15px;      /* pill-shaped */
+  padding: 12px 35px;         /* innenabstand */
+  margin-bottom: 5px;        /* minimaler Abstand zwischen Tasks */
+  width: 100%;
+           /* füllt Breite des Sidebar-Paddings */
+  box-sizing: border-box;
+}
+
+/* grauer Kreis links */
+.task-checkbox {
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  background-color: #ccc;    /* Platzhalter für „offen“ */
+  border-radius: 50%;
+  margin-right: 25px;
+  margin-left: -12px;
+}
+
+/* Task-Text */
+.task-label {
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+
+/* Rechts daneben: Content-Container */
+.content-area {
+    flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* optional: overflow:hidden; */
+}
+
+/* ORANGE Top-Balken */
+.topbar-orange {
+  width: 100%;
+  height: calc(100vh / 7);    /* 1/7 der Viewport-Höhe */
+  background-color: #FF5F1E;
+  flex-shrink: 0;             /* bleibt immer die fest definierte Höhe */
+}
+
+/* Der eigentliche Content nimmt den restlichen Platz */
+.main-content {
+  flex: 1;                    /* füllt den verbleibenden Platz unter dem Orange-Balken */
+  overflow: auto;
+  padding: 0 5%;
+             
+}
+
+.edit-btn {
+  background-color: #FF5F1E;  /* orangenes Filling */
+  border: 2px solid #FF5F1E;  /* gleicher Rand */
+  color: white;               /* weißer Text */
+  font-weight: 600;           /* etwas dicker */
+  padding: 8px 16px;          /* Innenabstand */
+  border-radius: 24px;         /* leicht gerundet */
+  margin-top: 30px;           /* Abstand zum Orange-Balken */
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  background-color: #e04c1a;  /* dunkleres Orange beim Hover */
+  border-color: #e04c1a;
+}
+
+/* Weißer Kreis um das SVG-Pfeil */
+.arrow-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.titel{
+  padding-left: 10px;
+  margin-top: 40px;
+}
+/* Icon-Größe und Farbe */
+.arrow-chip .back-svg {
+  width: 24px;
+  height: 24px;
+  fill: #E10A0A;
+}
+
+/* Abstand von links und ID wie gehabt */
+.orange-header-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 8px;
+}
+
+.orange-tour-id {
+  margin-left: 48px;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
