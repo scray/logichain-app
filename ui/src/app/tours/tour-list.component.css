@@ -1,0 +1,223 @@
+/* Wrapper: Sidebar + Content nebeneinander */
+.layout-with-sidebar {
+  display: flex;
+  height: 100vh; /* gesamte Höhe der Seite */
+}
+
+/* Roter Sidebar-Balken */
+/* --- Sidebar Tasks --- */
+.sidebar {
+  /* schon vorhanden: width, background-color */
+  width: 15%;
+  background-color: #E10A0A;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;             /* innenabstand links/rechts für Task-Boxes */
+}
+
+/* Überschrift „Aufgaben“ */
+.tasks-container {
+  margin-top: 16px;          /* etwas Abstand von oben */
+}
+
+.tasks-title {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-bottom: 30px;
+  font-weight: bold;
+}
+
+/* einzelne Task-Boxen */
+.task-item {
+  display: flex;
+  align-items: center;
+  background: white;         /* helle Box auf rotem Grund */
+  border-radius: 15px;      /* pill-shaped */
+  padding: 12px 35px;         /* innenabstand */
+  margin-bottom: 5px;        /* minimaler Abstand zwischen Tasks */
+  width: 100%;
+           /* füllt Breite des Sidebar-Paddings */
+  box-sizing: border-box;
+}
+
+/* grauer Kreis links */
+.task-checkbox {
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  background-color: #ccc;    /* Platzhalter für „offen“ */
+  border-radius: 50%;
+  margin-right: 25px;
+  margin-left: -12px;
+}
+
+/* Task-Text */
+.task-label {
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+
+/* Rechts daneben: Content-Container */
+.content-area {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  /* optional: overflow:hidden; */
+}
+
+
+.topbar-orange {
+  width: 100%;
+  height: calc(100vh / 7);    /* 1/7 der Viewport-Höhe */
+  background-color: #FF5F1E;
+  flex-shrink: 0;             /* bleibt immer die fest definierte Höhe */
+}
+
+.main-content {
+  flex: 1;                    
+  overflow: auto;    
+  padding: 0 5%;
+     
+}
+
+.orange-header-content {
+  margin-left: 5%; /* startet bei ~1/9 der Breite */
+}
+
+.orange-title {
+  margin-top: 27px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.7rem; /* anpassen nach Geschmack */
+}
+
+.orange-controls {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.search-box {
+  width: 30%;        /* ca. 30% der orangen Breite */
+}
+
+.filter-box {
+  margin-left: 16px; /* Abstand zur Suchbox */
+}
+
+/* Icon-Farbe */
+/* Such- und Filter-Boxen innen Weiß */
+.search-box,
+.filter-box {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 4px 8px;
+  background-color: white;  /* → hier Weiß setzen */
+}
+
+/* Lupe und Filter-Icon in Grau */
+.search-box mat-icon,
+.filter-box mat-icon {
+  color: #666;
+  margin-right: 4px;
+  
+}
+
+/* Such-Input: Text in Dunkel, Platzhalter in Hellgrau */
+.search-box input {
+  border: none;
+  outline: none;
+  padding-left: 8px;
+  background: transparent;
+  color: #333;              /* dunkler Text */
+  width: 100%;
+  font-size: 1rem;
+}
+
+.search-box input::placeholder {
+  color: #999;              /* helleres Grau */
+}
+
+
+/* Filter-Label: Grau */
+.filter-box span {
+  color: #999;   
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* → moderne Tabelle, nur horizontale Linien */
+table.modern-table {
+  width: 100%;           /* statt 100% */
+  margin: 0;       /* zentriert – je 10% Rand links/rechts */
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: white;
+}
+
+/* Header-Zellen: 2px Linie unten, schwarzer Text */
+th.mat-header-cell {
+  padding: 12px;
+  font-weight: 600;
+  color: #000;
+  border-bottom: 2px solid #ccc;
+}
+
+/* Daten-Zellen: 1px Linie unten, schwarzer Text */
+td.mat-cell {
+  padding: 12px;
+  color: #000;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Entfernt vertikale Linien (falls Material sie setzt) */
+th.mat-header-cell,
+td.mat-cell {
+  border-right: none;
+}
+
+/* Spaltenbreiten (Title bekommt den größten Anteil) */
+.mat-column-number   { width: 15%; }
+.mat-column-title    { width: 40%; }
+.mat-column-driver   { width: 15%; }
+.mat-column-date     { width: 15%; }
+.mat-column-vehicleId{ width: 15%; }
+
+/* Tour Nummer Spalte: grauer Text (Header + Zellen) */
+th.mat-header-cell.mat-column-number,
+td.mat-cell.mat-column-number {
+  
+  color: #828282;
+}
+
+.mat-column-driver,.mat-column-date,.mat-column-vehicleId,.mat-column-title{
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+}
+
+.mat-column-number{
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+}
+
+.mat-column-number a {
+  display: inline-block;       /* füllt die Zelle, damit man überall klickt */
+  width: 100%;
+  color: rgba(0, 0, 0, 0.5);    /* gleiche graue Tour-Nummer wie vorher */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mat-column-number a:hover {
+  text-decoration: underline;  /* kleines Hover-Feedback */
+}
