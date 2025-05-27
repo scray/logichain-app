@@ -1,0 +1,119 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+</head>
+<div class="layout-with-sidebar">
+  <!-- Roter Sidebar (21% Breite) -->
+   <aside class="sidebar">
+  <div class="tasks-container">
+    <h3 class="tasks-title">Aufgaben</h3>
+
+    <div class="task-item">
+      <span class="task-checkbox"></span>
+      <span class="task-label">Tour 3 bearbeiten</span>
+    </div>
+    <div class="task-item">
+      <span class="task-checkbox"></span>
+      <span class="task-label">Tour 6 anpassen</span>
+    </div>
+    <div class="task-item">
+      <span class="task-checkbox"></span>
+      <span class="task-label">Tour 1 validieren</span>
+    </div>
+    <div class="task-item">
+      <span class="task-checkbox"></span>
+      <span class="task-label">Tour 4 anreichern</span>
+    </div>
+    <div class="task-item">
+      <span class="task-checkbox"></span>
+      <span class="task-label">Tour 5 anreichern</span>
+    </div>
+
+  </div>
+</aside>
+
+
+  <!-- Hauptbereich rechts (79% Breite) -->
+  <div class="content-area">
+    <!-- ORANGE TOP-BALKEN: 1/7 der Viewport-Höhe -->
+    <div class="topbar-orange">
+      <div class="orange-header-content">
+  <h2 class="orange-title">Touren</h2>
+  <div class="orange-controls">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" placeholder="Suche Touren" />
+    </div>
+    <div class="filter-box">
+      <mat-icon>filter_list</mat-icon>
+      <span>Filtern</span>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <!-- Hier kommt Dein eigentlicher Inhalt rein -->
+      <div class="main-content">
+      <table mat-table [dataSource]="dataSource" class="modern-table">
+
+        <!-- Tour Nummer -->
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-number">
+            Tour Nummer
+          </th>
+          <td mat-cell *matCellDef="let row" class="mat-column-number">
+            
+    
+            <a [routerLink]="['/tours', row.number]">{{ row.number }}</a>
+          </td>
+        </ng-container>
+
+        <!-- Title -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-title">
+            Titel
+          </th>
+          <td mat-cell *matCellDef="let row" class="mat-column-title">
+            {{ row.title }}
+          </td>
+        </ng-container>
+
+        <!-- Fahrer -->
+        <ng-container matColumnDef="driver">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-driver">
+            Fahrer
+          </th>
+          <td mat-cell *matCellDef="let row" class="mat-column-driver">
+            {{ row.driver }}
+          </td>
+        </ng-container>
+
+        <!-- Datum -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-date">
+            Datum
+          </th>
+          <td mat-cell *matCellDef="let row" class="mat-column-date">
+            {{ row.date }}
+          </td>
+        </ng-container>
+
+        <!-- Fahrzeug ID -->
+        <ng-container matColumnDef="vehicleId">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-vehicleId">
+            Fahrzeug ID
+          </th>
+          <td mat-cell *matCellDef="let row" class="mat-column-vehicleId">
+            {{ row.vehicleId }}
+          </td>
+        </ng-container>
+
+        <!-- Header & Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row        *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>

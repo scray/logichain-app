@@ -1,19 +1,261 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.layout-with-sidebar {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  flex: 0 0 15%;
+  background-color: #E10A0A;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.tasks-container {
+  margin-top: 16px;
+}
+
+.tasks-title {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-bottom: 30px;
+  font-weight: bold;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 15px;
+  padding: 12px 35px;
+  margin-bottom: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.task-checkbox {
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin-right: 25px;
+  margin-left: -12px;
+}
+
+.task-label {
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Content Area */
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Orange Header */
+.topbar-orange {
+  width: 100%;
+  height: calc(100vh / 7);
+  background-color: #FF5F1E;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.orange-header-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 8px;
+  justify-content: space-between;
+  padding-right: 20px;
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+}
+
+.arrow-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.back-svg {
+  width: 24px;
+  height: 24px;
+  fill: #E10A0A;
+}
+
+.orange-tour-id {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-right: 20px;
+}
+
+.tour-title {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-right: 20px;
+}
+
+.right-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.header-info {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  overflow: auto;
+  padding: 0 5%;
+  background-color: white;
+}
+
+.edit-btn {
+  background-color: #FF5F1E;
+  border: 2px solid #FF5F1E;
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 24px;
+  margin-top: 30px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  background-color: #e04c1a;
+  border-color: #e04c1a;
+}
+
+.intl-section {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.titel {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.checkbox-container {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #FF5F1E;
+}
+
+.checkbox-label {
+  font-size: 1rem;
+  color: #333;
+}
+
+.checkbox-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Waypoint Table */
+.waypoint-table {
+  margin-top: 20px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 1em 0;
-  }
-  
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-  }
-  
-  thead {
-    background-color: #f4f4f4;
-  }
-  
-  tr:hover {
-    background-color: #fafafa;
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #f8f9fa;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e9ecef;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+  color: #333;
+}
+
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+.selected-row {
+  background-color: #e3f2fd !important;
+  border: 2px solid #2196f3;
+}
+
+.waypoint-number {
+  font-weight: 600;
+  color: #666;
+}
