@@ -1,38 +1,82 @@
-import {Component, inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
-import LedgerService from '../logbook.service';
-import { Tour } from '../shared/models/tour';
+// src/app/tour-details/tour-details.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { FormsModule }            from '@angular/forms';
+import { MatToolbarModule }       from '@angular/material/toolbar';
+import { MatIconModule }          from '@angular/material/icon';
+import { MatButtonModule }        from '@angular/material/button';
+import { MatCheckboxModule }      from '@angular/material/checkbox';
+import { MatTableModule }         from '@angular/material/table';
+
+import LedgerService               from '../logbook.service';
+import { Tour }                    from '../shared/models/tour';
+import { Waypoint }                from '../shared/models/waypoint';
+
+interface DisplayWP {
+  idx: number;
+  lon: number;
+  lat: number;
+  timestamp: string;
+}
 
 @Component({
-  selector: 'app-details',
-  imports: [CommonModule],
-  template: `
-    <article>
-      <section class="listing-features">
-        <h2 class="section-heading">Waypoints of tour {{tour?.tourId}}</h2>
-      </section>
-    </article>
-  `,
-  styleUrls: ['./details.component.css'],
+  selector: 'app-tour-details',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTableModule
+  ],
+  templateUrl: './tour-details.component.html',
+  styleUrls:  ['./details.component.css']
 })
+export class TourDetailsComponent implements OnInit {
+  tourId!: string;
+  tour?: Tour;
+  displayWaypoints: DisplayWP[] = [];
 
-export class TourDetailsComponent {
-  route: ActivatedRoute = inject(ActivatedRoute);
-  private ledgerService = inject(LedgerService);
+  // ← Hier fehlt die Definition
+  displayedColumns: string[] = ['idx','lon','lat','timestamp'];
 
-  public get housingService() {
-    return this.ledgerService;
+  internationals = {
+    eu: false,
+    eu_ch: false,
+    inland: false
+  };
+
+  constructor(
+      private route: ActivatedRoute,
+      private ledger: LedgerService,
+      private location: Location
+  ) {}
+
+  async ngOnInit() {
+    this.tourId = this.route.snapshot.paramMap.get('id')!;
+    this.tour = await this.ledger.getTourById('alice', this.tourId);
+    if (!this.tour) return;
+
+    this.displayWaypoints = this.tour.waypoints.map((wp, i) => ({
+      idx: i + 1,
+      lon: wp.longitude,
+      lat: wp.latitude,
+      timestamp: new Date(wp.timestamp).toLocaleString()
+    }));
+
+    const intl = this.tour.internationaleFahrten ?? false;
+    this.internationals = {
+      eu:      intl,
+      eu_ch:   intl,
+      inland: !intl
+    };
   }
-  public set housingService(value) {
-    this.ledgerService = value;
-  }
 
-  tour: Tour | undefined;
-  constructor() {
-    const tourId = this.route.snapshot.params['id'];
-
-    this.housingService.getTourById(tourId).then((tour) =>
-       {      this.tour = tour;    });
+  goBack(): void {
+    this.location.back();
   }
 }
