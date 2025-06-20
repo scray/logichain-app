@@ -1,223 +1,200 @@
-/* Wrapper: Sidebar + Content nebeneinander */
-.layout-with-sidebar {
-  display: flex;
-  height: 100vh; /* gesamte Höhe der Seite */
-}
-
-/* Roter Sidebar-Balken */
-/* --- Sidebar Tasks --- */
-.sidebar {
-  /* schon vorhanden: width, background-color */
-  width: 15%;
-  background-color: #E10A0A;
-  display: flex;
-  flex-direction: column;
-  padding: 16px;             /* innenabstand links/rechts für Task-Boxes */
-}
-
-/* Überschrift „Aufgaben“ */
-.tasks-container {
-  margin-top: 16px;          /* etwas Abstand von oben */
-}
-
-.tasks-title {
-  color: white;
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  padding-left: 15px;
-  padding-bottom: 30px;
-  font-weight: bold;
-}
-
-/* einzelne Task-Boxen */
-.task-item {
-  display: flex;
-  align-items: center;
-  background: white;         /* helle Box auf rotem Grund */
-  border-radius: 15px;      /* pill-shaped */
-  padding: 12px 35px;         /* innenabstand */
-  margin-bottom: 5px;        /* minimaler Abstand zwischen Tasks */
-  width: 100%;
-           /* füllt Breite des Sidebar-Paddings */
-  box-sizing: border-box;
-}
-
-/* grauer Kreis links */
-.task-checkbox {
-  flex-shrink: 0;
-  width: 23px;
-  height: 23px;
-  background-color: #ccc;    /* Platzhalter für „offen“ */
-  border-radius: 50%;
-  margin-right: 25px;
-  margin-left: -12px;
-}
-
-/* Task-Text */
-.task-label {
-  font-weight: 400;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-
-/* Rechts daneben: Content-Container */
-.content-area {
-  width: 85%;
-  display: flex;
-  flex-direction: column;
-  /* optional: overflow:hidden; */
-}
-
-
-.topbar-orange {
-  width: 100%;
-  height: calc(100vh / 7);    /* 1/7 der Viewport-Höhe */
-  background-color: #FF5F1E;
-  flex-shrink: 0;             /* bleibt immer die fest definierte Höhe */
-}
-
-.main-content {
-  flex: 1;                    
-  overflow: auto;    
-  padding: 0 5%;
-     
-}
-
 .orange-header-content {
-  margin-left: 5%; /* startet bei ~1/9 der Breite */
-}
-
-.orange-title {
-  margin-top: 27px;
-  color: white;
-  font-weight: 700;
-  font-size: 1.7rem; /* anpassen nach Geschmack */
-}
-
-.orange-controls {
-  margin-top: 15px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 100%;
 }
 
-
-
-.search-box {
-  width: 30%;        /* ca. 30% der orangen Breite */
+.header-left {
+  flex: 1;
 }
 
-.filter-box {
-  margin-left: 16px; /* Abstand zur Suchbox */
+.page-title {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-/* Icon-Farbe */
-/* Such- und Filter-Boxen innen Weiß */
-.search-box,
-.filter-box {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 4px 8px;
-  background-color: white;  /* → hier Weiß setzen */
+.page-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  margin: 4px 0 0 0;
 }
 
-/* Lupe und Filter-Icon in Grau */
-.search-box mat-icon,
-.filter-box mat-icon {
-  color: #666;
-  margin-right: 4px;
-  
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  color: var(--gray-500);
+  animation: fadeIn var(--transition-base);
 }
 
-/* Such-Input: Text in Dunkel, Platzhalter in Hellgrau */
-.search-box input {
-  border: none;
-  outline: none;
-  padding-left: 8px;
-  background: transparent;
-  color: #333;              /* dunkler Text */
+.empty-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--spacing-lg);
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  color: var(--gray-700);
+  margin-bottom: var(--spacing-sm);
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: slideInUp var(--transition-slow);
+}
+
+.tours-table {
   width: 100%;
-  font-size: 1rem;
-}
-
-.search-box input::placeholder {
-  color: #999;              /* helleres Grau */
-}
-
-
-/* Filter-Label: Grau */
-.filter-box span {
-  color: #999;   
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-/* → moderne Tabelle, nur horizontale Linien */
-table.modern-table {
-  width: 100%;           /* statt 100% */
-  margin: 0;       /* zentriert – je 10% Rand links/rechts */
-  table-layout: fixed;
-  border-collapse: collapse;
   background: white;
 }
 
-/* Header-Zellen: 2px Linie unten, schwarzer Text */
+.table-header {
+  background-color: var(--gray-50);
+}
+
 th.mat-header-cell {
-  padding: 12px;
+  padding: var(--spacing-md) var(--spacing-lg);
   font-weight: 600;
-  color: #000;
-  border-bottom: 2px solid #ccc;
+  font-size: 0.875rem;
+  color: var(--gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--gray-200);
 }
 
-/* Daten-Zellen: 1px Linie unten, schwarzer Text */
+.header-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: var(--spacing-xs);
+  opacity: 0.7;
+}
+
+.table-row {
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.table-row:hover {
+  background-color: var(--gray-50);
+}
+
 td.mat-cell {
-  padding: 12px;
-  color: #000;
-  border-bottom: 1px solid #e0e0e0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--gray-900);
+  font-size: 0.9375rem;
 }
 
-/* Entfernt vertikale Linien (falls Material sie setzt) */
-th.mat-header-cell,
-td.mat-cell {
-  border-right: none;
+.col-number {
+  width: 120px;
+  font-weight: 600;
 }
 
-/* Spaltenbreiten (Title bekommt den größten Anteil) */
-.mat-column-number   { width: 15%; }
-.mat-column-title    { width: 40%; }
-.mat-column-driver   { width: 15%; }
-.mat-column-date     { width: 15%; }
-.mat-column-vehicleId{ width: 15%; }
-
-/* Tour Nummer Spalte: grauer Text (Header + Zellen) */
-th.mat-header-cell.mat-column-number,
-td.mat-cell.mat-column-number {
-  
-  color: #828282;
-}
-
-.mat-column-driver,.mat-column-date,.mat-column-vehicleId,.mat-column-title{
-  font-size: 16px;
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-}
-
-.mat-column-number{
-  font-size: 16px;
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-}
-
-.mat-column-number a {
-  display: inline-block;       /* füllt die Zelle, damit man überall klickt */
-  width: 100%;
-  color: rgba(0, 0, 0, 0.5);    /* gleiche graue Tour-Nummer wie vorher */
+.tour-link {
+  color: var(--primary-orange);
   text-decoration: none;
-  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  display: inline-block;
 }
 
-.mat-column-number a:hover {
-  text-decoration: underline;  /* kleines Hover-Feedback */
+.tour-link:hover {
+  background-color: rgba(255, 95, 30, 0.1);
+  color: var(--primary-red);
 }
+
+.col-title {
+  min-width: 250px;
+  font-weight: 500;
+}
+
+.col-driver {
+  width: 150px;
+}
+
+.driver-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--gray-100);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.col-date {
+  width: 150px;
+  color: var(--gray-600);
+}
+
+.col-vehicle {
+  width: 150px;
+}
+
+.vehicle-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--primary-orange);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.no-vehicle {
+  color: var(--gray-400);
+  font-style: italic;
+}
+
+@media (max-width: 1024px) {
+  .orange-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .col-title {
+    min-width: 200px;
+  }
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table-row {
+  animation: rowFadeIn var(--transition-base) ease-out;
+}
+
+.table-row:nth-child(1) { animation-delay: 0ms; }
+.table-row:nth-child(2) { animation-delay: 50ms; }
+.table-row:nth-child(3) { animation-delay: 100ms; }
+.table-row:nth-child(4) { animation-delay: 150ms; }
+.table-row:nth-child(5) { animation-delay: 200ms; }
