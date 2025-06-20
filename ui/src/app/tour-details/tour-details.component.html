@@ -1,402 +1,74 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tour Details</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .layout-with-sidebar {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            flex: 0 0 15%;
-            background-color: #E10A0A;
-            display: flex;
-            flex-direction: column;
-            padding: 16px;
-        }
-
-        .tasks-container {
-            margin-top: 16px;
-        }
-
-        .tasks-title {
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            padding-left: 15px;
-            padding-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 15px;
-            padding: 12px 35px;
-            margin-bottom: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .task-checkbox {
-            flex-shrink: 0;
-            width: 23px;
-            height: 23px;
-            background-color: #ccc;
-            border-radius: 50%;
-            margin-right: 25px;
-            margin-left: -12px;
-        }
-
-        .task-label {
-            font-weight: 400;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        /* Content Area */
-        .content-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Orange Header */
-        .topbar-orange {
-            width: 100%;
-            height: calc(100vh / 7);
-            background-color: #FF5F1E;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        .orange-header-content {
-            display: flex;
-            align-items: center;
-            height: 100%;
-            padding-left: 8px;
-            justify-content: space-between;
-            padding-right: 20px;
-        }
-
-        .left-header {
-            display: flex;
-            align-items: center;
-        }
-
-        .arrow-chip {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            background-color: white;
-            border-radius: 50%;
-            cursor: pointer;
-            margin-right: 20px;
-        }
-
-        .back-svg {
-            width: 24px;
-            height: 24px;
-            fill: #E10A0A;
-        }
-
-        .orange-tour-id {
-            color: white;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-right: 20px;
-        }
-
-        .tour-title {
-            color: white;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-right: 20px;
-        }
-
-        .right-header {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .header-info {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            overflow: auto;
-            padding: 0 5%;
-            background-color: white;
-        }
-
-        .edit-btn {
-            background-color: #FF5F1E;
-            border: 2px solid #FF5F1E;
-            color: white;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 24px;
-            margin-top: 30px;
-            cursor: pointer;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .edit-btn:hover {
-            background-color: #e04c1a;
-            border-color: #e04c1a;
-        }
-
-        .intl-section {
-            margin-top: 40px;
-            margin-bottom: 40px;
-        }
-
-        .titel {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .checkbox-container {
-            display: flex;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #FF5F1E;
-        }
-
-        .checkbox-label {
-            font-size: 1rem;
-            color: #333;
-        }
-
-        .checkbox-description {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 2px;
-        }
-
-        /* Waypoint Table */
-        .waypoint-table {
-            margin-top: 20px;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #333;
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e9ecef;
-            color: #333;
-        }
-
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .selected-row {
-            background-color: #e3f2fd !important;
-            border: 2px solid #2196f3;
-        }
-
-        .waypoint-number {
-            font-weight: 600;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-<div class="layout-with-sidebar">
-    <!-- Roter Sidebar -->
-    <aside class="sidebar">
-        <div class="tasks-container">
-            <h3 class="tasks-title">Aufgaben</h3>
-
-            <div class="task-item">
-                <span class="task-checkbox"></span>
-                <span class="task-label">Tour 3 bearbeiten</span>
+<app-layout [sidebarTasks]="sidebarTasks">
+    <div header class="orange-header-content">
+        <div class="left-header">
+            <div class="arrow-chip" (click)="goBack()">
+                <svg class="back-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                </svg>
             </div>
-            <div class="task-item">
-                <span class="task-checkbox"></span>
-                <span class="task-label">Tour 6 anpassen</span>
-            </div>
-            <div class="task-item">
-                <span class="task-checkbox"></span>
-                <span class="task-label">Tour 4 löschen</span>
-            </div>
-            <div class="task-item">
-                <span class="task-checkbox"></span>
-                <span class="task-label">Schweiz Tour 1</span>
-            </div>
-            <div class="task-item">
-                <span class="task-checkbox"></span>
-                <span class="task-label">EU Ausland Tour 3</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Content Area -->
-    <div class="content-area">
-        <!-- Orange Header -->
-        <div class="topbar-orange">
-            <div class="orange-header-content">
-                <div class="left-header">
-                    <div class="arrow-chip" onclick="goBack()">
-                        <svg class="back-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
-                        </svg>
-                    </div>
-                    <span class="orange-tour-id">SEB-123</span>
-                    <span class="tour-title">Tour 1</span>
-                </div>
-
-                <div class="right-header">
-                    <span class="header-info">Meier</span>
-                    <span class="header-info">1.1.2025</span>
-                    <span class="header-info">PKW-13</span>
-                    <button class="menu-btn">☰</button>
-                </div>
-            </div>
+            <span class="orange-tour-id">{{tour?.tourId || 'Tour'}}</span>
+            <span class="tour-title">Tour Details</span>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <button class="edit-btn">Editieren</button>
+        <div class="right-header">
+            <span class="header-info">{{tour?.userId || 'User'}}</span>
+            <span class="header-info">{{formatDate(tour?.startTime)}}</span>
+            <span class="header-info">{{tour?.vehiceId || 'Fahrzeug'}}</span>
+            <button class="menu-btn">☰</button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div content>
+        <!-- Loading indicator -->
+        <div *ngIf="!tour" style="padding: 20px; text-align: center;">
+            <p>Tour wird geladen...</p>
+        </div>
+
+
+        <div *ngIf="tour">
+
+            <button class="edit-btn"
+                    (click)="saveChanges()"
+                    [disabled]="isSaving"
+                    style="cursor: pointer;">
+                <span *ngIf="!isSaving">Änderungen speichern</span>
+                <span *ngIf="isSaving">Wird gespeichert...</span>
+            </button>
 
             <section class="intl-section">
                 <h2 class="titel">Internationale Fahrten</h2>
 
-                <div class="checkbox-container">
-                    <div class="checkbox-item">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="eu" checked>
-                                <label for="eu" class="checkbox-label">EU</label>
-                            </div>
-                            <div class="checkbox-description">Fahrt innerhalb der EU</div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-item">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="eu-ch" checked>
-                                <label for="eu-ch" class="checkbox-label">EU + Schweiz</label>
-                            </div>
-                            <div class="checkbox-description">Fahrt innerhalb EU und Schweiz</div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-item">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="inland">
-                                <label for="inland" class="checkbox-label">Inland</label>
-                            </div>
-                            <div class="checkbox-description">Nur Inland Fahrt</div>
-                        </div>
-                    </div>
-                </div>
+                <app-checkbox-group
+                        [options]="checkboxOptions"
+                        (optionChanged)="onCheckboxGroupChange($event)">
+                </app-checkbox-group>
             </section>
 
-            <!-- Waypoint Table -->
-            <div class="waypoint-table">
+
+            <div class="waypoint-table" *ngIf="displayWaypoints.length > 0">
+                <h2 class="titel">Wegpunkte</h2>
                 <div class="table-container">
-                    <table mat-table [dataSource]="displayWaypoints" class="mat-elevation-z8">
-
-                        <!-- Waypoint Nr. -->
-                        <ng-container matColumnDef="idx">
-                            <th mat-header-cell *matHeaderCellDef>Waypoint</th>
-                            <td mat-cell *matCellDef="let el">{{el.idx}}</td>
-                        </ng-container>
-
-                        <!-- Längengrad -->
-                        <ng-container matColumnDef="lon">
-                            <th mat-header-cell *matHeaderCellDef>Längengrad</th>
-                            <td mat-cell *matCellDef="let el">{{el.lon}}</td>
-                        </ng-container>
-
-                        <!-- Breitengrad -->
-                        <ng-container matColumnDef="lat">
-                            <th mat-header-cell *matHeaderCellDef>Breitengrad</th>
-                            <td mat-cell *matCellDef="let el">{{el.lat}}</td>
-                        </ng-container>
-
-                        <!-- Timestamp -->
-                        <ng-container matColumnDef="timestamp">
-                            <th mat-header-cell *matHeaderCellDef>Timestamp</th>
-                            <td mat-cell *matCellDef="let el">{{el.timestamp}}</td>
-                        </ng-container>
-
-                        <!-- Header- & Row-Definition -->
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row        *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Waypoint</th>
+                            <th>Längengrad</th>
+                            <th>Breitengrad</th>
+                            <th>Timestamp</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let wp of displayWaypoints">
+                            <td class="waypoint-number">{{wp.idx}}</td>
+                            <td>{{wp.lon}}</td>
+                            <td>{{wp.lat}}</td>
+                            <td>{{wp.timestamp}}</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</app-layout>
