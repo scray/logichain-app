@@ -1,0 +1,111 @@
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.search-box {
+    width: 320px;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    transition: all var(--transition-base);
+}
+
+.search-box:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.search-box:focus-within {
+    background: white;
+    border-color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.search-box mat-icon {
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: var(--spacing-sm);
+    transition: color var(--transition-fast);
+}
+
+.search-box:focus-within mat-icon {
+    color: var(--gray-600);
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    width: 100%;
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-box:focus-within input {
+    color: var(--gray-900);
+}
+
+.search-box:focus-within input::placeholder {
+    color: var(--gray-500);
+}
+
+.filter-box {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+}
+
+.filter-box:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.filter-box:active {
+    transform: translateY(0);
+}
+
+.filter-box mat-icon {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.filter-box span {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    font-size: 0.9375rem;
+}
+
+@media (max-width: 768px) {
+    .search-filter-container {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .filter-box {
+        justify-content: center;
+    }
+}

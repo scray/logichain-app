@@ -18,14 +18,14 @@
         </div>
     </div>
 
-    <!-- Main -->
+    <!-- Main Content -->
     <div content>
-        <!-- Loading indicator -->
+
         <div *ngIf="!tour" style="padding: 20px; text-align: center;">
             <p>Tour wird geladen...</p>
         </div>
 
-
+        <!-- Content when tour is loaded -->
         <div *ngIf="tour">
 
             <button class="edit-btn"
@@ -45,6 +45,12 @@
                 </app-checkbox-group>
             </section>
 
+
+            <app-add-waypoint
+                    [tourId]="tourId"
+                    [userId]="'alice'"
+                    (waypointAdded)="onWaypointAdded($event)">
+            </app-add-waypoint>
 
             <div class="waypoint-table" *ngIf="displayWaypoints.length > 0">
                 <h2 class="titel">Wegpunkte</h2>

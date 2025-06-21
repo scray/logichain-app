@@ -10,6 +10,8 @@ import { InternationaleFahrten }   from '../shared/models/internationale-fahrten
 import { Task }                    from '../shared/components/sidebar/sidebar.component';
 import { LayoutComponent }         from '../shared/components/layout/layout.component';
 import { CheckboxGroupComponent, CheckboxOption } from '../shared/components/checkbox-group/checkbox-group.component';
+import { AddWaypointComponent }    from '../shared/components/add-waypoint/add-waypoint.component';
+import { Waypoint }                from '../shared/models/waypoint';
 
 interface DisplayWP {
   idx: number;
@@ -27,7 +29,8 @@ interface DisplayWP {
     FormsModule,
     MatSnackBarModule,
     LayoutComponent,
-    CheckboxGroupComponent
+    CheckboxGroupComponent,
+    AddWaypointComponent
   ],
   templateUrl: './tour-details.component.html',
   styleUrls:  ['./details.component.css']
@@ -39,7 +42,6 @@ export class TourDetailsComponent implements OnInit {
   displayedColumns: string[] = ['idx','lon','lat','timestamp'];
   isSaving: boolean = false;
 
-  // Tasks für die Sidebar
   sidebarTasks: Task[] = [
     { label: 'Tour 3 bearbeiten' },
     { label: 'Tour 6 anpassen' },
@@ -217,5 +219,30 @@ export class TourDetailsComponent implements OnInit {
   goBack(): void {
     console.log('goBack called');
     this.location.back();
+  }
+
+  // Handler für neu hinzugefügte Waypoints
+  async onWaypointAdded(waypoint: Waypoint) {
+    console.log('Waypoint added:', waypoint);
+
+    // Tour neu laden um die aktualisierten Waypoints anzuzeigen
+    try {
+      this.tour = await this.ledger.getTourById('alice', this.tourId);
+
+      if (this.tour && this.tour.waypoints) {
+        this.displayWaypoints = this.tour.waypoints.map((wp, i) => ({
+          idx: i + 1,
+          lon: wp.longitude,
+          lat: wp.latitude,
+          timestamp: new Date(wp.timestamp * 1000).toLocaleString('de-DE')
+        }));
+      }
+
+      this.snackBar.open('Tour erfolgreich aktualisiert!', 'OK', {
+        duration: 2000
+      });
+    } catch (error) {
+      console.error('Error reloading tour:', error);
+    }
   }
 }

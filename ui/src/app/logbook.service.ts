@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tour, InternationaleFahrten } from './shared/models/tour';
+import { Waypoint } from './shared/models/waypoint';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export default class LedgerService {
     try {
       console.log(`Updating tour ${tourId} with internationale Fahrten:`, internationaleFahrten);
 
-
+      // Verwende die korrekte URL für dein Backend
       const url = `${this.baseUrl}/${user}/${tourId}/international`;
       console.log('PUT request to:', url);
 
@@ -144,5 +145,45 @@ export default class LedgerService {
       eu_ch: false,
       inland: true
     };
+  }
+
+  /**
+   * Fügt einen Waypoint zu einer Tour hinzu
+   */
+  async addWaypoint(user: string = 'alice', tourId: string, waypoint: Waypoint): Promise<boolean> {
+    try {
+      console.log(`Adding waypoint to tour ${tourId}:`, waypoint);
+
+      const url = `${this.baseUrl}/${user}/${tourId}`;
+      console.log('PUT request to:', url);
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(waypoint)
+      });
+
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Server response:', errorData);
+
+        // Werfe spezifischen Fehler für Validierungsfehler
+        if (errorData.type === 'LOCATION_NOT_ALLOWED') {
+          throw new Error(errorData.message);
+        }
+
+        throw new Error(errorData.message || 'Fehler beim Hinzufügen des Waypoints');
+      }
+
+      return true;
+    } catch (error: any) {
+      console.error('Error adding waypoint:', error);
+      // Werfe den Fehler weiter, damit die Komponente ihn behandeln kann
+      throw error;
+    }
   }
 }

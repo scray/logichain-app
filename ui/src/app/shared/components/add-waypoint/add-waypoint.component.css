@@ -1,0 +1,144 @@
+.add-waypoint-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+    box-shadow: var(--shadow);
+}
+
+.add-waypoint-section h3 {
+    margin: 0 0 var(--spacing-lg) 0;
+    color: var(--gray-800);
+}
+
+.waypoint-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+}
+
+.form-input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(255, 95, 30, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background-color: var(--primary-orange);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #e54d1a;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--gray-700);
+    border: 2px solid var(--gray-300);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: var(--gray-100);
+    border-color: var(--gray-400);
+}
+
+/* Test Locations */
+.test-locations {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--gray-200);
+}
+
+.test-locations h4 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+}
+
+.test-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.test-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    background: white;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 0.875rem;
+}
+
+.test-btn:hover {
+    background-color: var(--gray-100);
+    border-color: var(--primary-orange);
+}
+
+/* Error Message */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: #fee;
+    border: 1px solid #fcc;
+    border-radius: var(--radius-md);
+    color: var(--primary-red);
+}
+
+.error-message mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
