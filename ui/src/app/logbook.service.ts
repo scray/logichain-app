@@ -48,7 +48,6 @@ export default class LedgerService {
     try {
       console.log(`Updating tour ${tourId} with internationale Fahrten:`, internationaleFahrten);
 
-      // Verwende die korrekte URL für dein Backend
       const url = `${this.baseUrl}/${user}/${tourId}/international`;
       console.log('PUT request to:', url);
 
@@ -65,12 +64,28 @@ export default class LedgerService {
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Server response:', errorText);
+
+        try {
+          const errorData = JSON.parse(errorText);
+          if (errorData.type === 'USER_NOT_AUTHORIZED') {
+            throw new Error('AUTHORIZATION_ERROR: ' + errorData.message);
+          } else if (errorData.message) {
+            throw new Error(errorData.message);
+          }
+        } catch (parseError) {
+          // Falls kein JSON, verwende den Fehlertext direkt
+          if (errorText.includes('not authorized')) {
+            throw new Error('AUTHORIZATION_ERROR: ' + errorText);
+          }
+        }
+
+        throw new Error('Fehler beim Aktualisieren der Tour');
       }
 
-      return response.ok;
-    } catch (error) {
+      return true;
+    } catch (error: any) {
       console.error('Error updating tour:', error);
-      return false;
+      throw error;
     }
   }
 
@@ -85,7 +100,7 @@ export default class LedgerService {
         internationaleFahrten: tour.internationaleFahrten ?? this.getDefaultInternationaleFahrten()
       };
 
-      console.log('Creating tour with data:', tourWithDefaults); // Debug log
+      console.log('Creating tour with data:', tourWithDefaults);
 
       const response = await fetch(`${this.baseUrl}/${user}`, {
         method: 'POST',
@@ -94,6 +109,27 @@ export default class LedgerService {
         },
         body: JSON.stringify(tourWithDefaults)
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server response:', errorText);
+
+        try {
+          const errorData = JSON.parse(errorText);
+          if (errorData.type === 'USER_NOT_AUTHORIZED') {
+            throw new Error('AUTHORIZATION_ERROR: ' + errorData.message);
+          } else if (errorData.message) {
+            throw new Error(errorData.message);
+          }
+        } catch (parseError) {
+          // Falls kein JSON, verwende den Fehlertext direkt
+          if (errorText.includes('not authorized')) {
+            throw new Error('AUTHORIZATION_ERROR: ' + errorText);
+          }
+        }
+
+        throw new Error('Fehler beim Erstellen der Tour');
+      }
 
       if (response.ok) {
         const createdTour = await response.json();
@@ -106,7 +142,64 @@ export default class LedgerService {
       return undefined;
     } catch (error) {
       console.error('Error creating tour:', error);
-      return undefined;
+      throw error;
+    }
+  }
+
+  /**
+   * Fügt einen Waypoint zu einer Tour hinzu
+   */
+  async addWaypoint(user: string = 'alice', tourId: string, waypoint: Waypoint): Promise<boolean> {
+    try {
+      console.log(`Adding waypoint to tour ${tourId}:`, waypoint);
+
+      const url = `${this.baseUrl}/${user}/${tourId}`;
+      console.log('PUT request to:', url);
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(waypoint)
+      });
+
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server response:', errorText);
+
+        try {
+          const errorData = JSON.parse(errorText);
+
+          // Autorisierungsfehler
+          if (errorData.type === 'USER_NOT_AUTHORIZED') {
+            throw new Error('AUTHORIZATION_ERROR: ' + errorData.message);
+          }
+
+          // Geografische Validierungsfehler
+          if (errorData.type === 'LOCATION_NOT_ALLOWED') {
+            throw new Error('LOCATION_ERROR: ' + errorData.message);
+          }
+
+          if (errorData.message) {
+            throw new Error(errorData.message);
+          }
+        } catch (parseError) {
+          // Falls kein JSON, prüfe ob es ein bekannter Fehlertext ist
+          if (errorText.includes('not authorized')) {
+            throw new Error('AUTHORIZATION_ERROR: ' + errorText);
+          }
+          throw new Error('Fehler beim Hinzufügen des Waypoints: ' + errorText);
+        }
+      }
+
+      return true;
+    } catch (error: any) {
+      console.error('Error adding waypoint:', error);
+      // Werfe den Fehler weiter, damit die Komponente ihn behandeln kann
+      throw error;
     }
   }
 
@@ -145,45 +238,5 @@ export default class LedgerService {
       eu_ch: false,
       inland: true
     };
-  }
-
-  /**
-   * Fügt einen Waypoint zu einer Tour hinzu
-   */
-  async addWaypoint(user: string = 'alice', tourId: string, waypoint: Waypoint): Promise<boolean> {
-    try {
-      console.log(`Adding waypoint to tour ${tourId}:`, waypoint);
-
-      const url = `${this.baseUrl}/${user}/${tourId}`;
-      console.log('PUT request to:', url);
-
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(waypoint)
-      });
-
-      console.log('Response status:', response.status);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Server response:', errorData);
-
-        // Werfe spezifischen Fehler für Validierungsfehler
-        if (errorData.type === 'LOCATION_NOT_ALLOWED') {
-          throw new Error(errorData.message);
-        }
-
-        throw new Error(errorData.message || 'Fehler beim Hinzufügen des Waypoints');
-      }
-
-      return true;
-    } catch (error: any) {
-      console.error('Error adding waypoint:', error);
-      // Werfe den Fehler weiter, damit die Komponente ihn behandeln kann
-      throw error;
-    }
   }
 }

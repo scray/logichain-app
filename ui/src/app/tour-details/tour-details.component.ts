@@ -201,15 +201,30 @@ export class TourDetailsComponent implements OnInit {
       if (success) {
         console.log('Successfully saved changes');
         this.snackBar.open('Änderungen erfolgreich gespeichert!', 'OK', {
-          duration: 3000
+          duration: 3000,
+          panelClass: ['success-snackbar']
         });
       } else {
         throw new Error('Update failed - API returned false');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving changes:', error);
-      this.snackBar.open('Fehler beim Speichern der Änderungen!', 'OK', {
-        duration: 3000
+
+      let errorMessage = 'Fehler beim Speichern der Änderungen!';
+
+      if (error.message) {
+        if (error.message.includes('AUTHORIZATION_ERROR:')) {
+          // Extrahiere die Fehlermeldung nach AUTHORIZATION_ERROR:
+          errorMessage = error.message.replace('AUTHORIZATION_ERROR: ', '');
+        } else {
+          // Verwende die direkte Fehlermeldung
+          errorMessage = error.message;
+        }
+      }
+
+      this.snackBar.open(errorMessage, 'OK', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
       });
     } finally {
       this.isSaving = false;
@@ -221,7 +236,7 @@ export class TourDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  // Handler für neu hinzugefügte Waypoints
+
   async onWaypointAdded(waypoint: Waypoint) {
     console.log('Waypoint added:', waypoint);
 
@@ -239,7 +254,8 @@ export class TourDetailsComponent implements OnInit {
       }
 
       this.snackBar.open('Tour erfolgreich aktualisiert!', 'OK', {
-        duration: 2000
+        duration: 2000,
+        panelClass: ['success-snackbar']
       });
     } catch (error) {
       console.error('Error reloading tour:', error);

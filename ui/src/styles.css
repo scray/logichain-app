@@ -182,3 +182,19 @@ a:focus {
   outline: 2px solid var(--primary-orange);
   outline-offset: 2px;
 }
+
+/* Fehler Snackbar Styling */
+.mat-mdc-snack-bar-container.success-snackbar {
+  --mdc-snackbar-container-color: #4CAF50;
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+.mat-mdc-snack-bar-container.error-snackbar {
+  --mdc-snackbar-container-color: #d32f2f;
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+.mat-mdc-snack-bar-container.warning-snackbar {
+  --mdc-snackbar-container-color: #FF9800;
+  --mdc-snackbar-supporting-text-color: white;
+}
