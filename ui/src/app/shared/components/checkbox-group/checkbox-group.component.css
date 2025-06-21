@@ -1,0 +1,35 @@
+.checkbox-container {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #FF5F1E;
+}
+
+.checkbox-label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.checkbox-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 2px;
+    padding-left: 28px;
+}
