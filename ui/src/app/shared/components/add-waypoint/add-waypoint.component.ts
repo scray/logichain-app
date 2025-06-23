@@ -11,105 +11,99 @@ import { Waypoint } from '../../models/waypoint';
     standalone: true,
     imports: [CommonModule, FormsModule, MatIconModule, MatSnackBarModule],
     template: `
-        <div class="add-waypoint-section">
-            <h3>Waypoint hinzufügen</h3>
-
-            <div class="waypoint-form">
-                <div class="form-group">
-                    <label>Breitengrad (Latitude)</label>
-                    <input
-                            type="number"
-                            [(ngModel)]="latitude"
-                            placeholder="z.B. 52.520008"
-                            step="0.000001"
-                            min="-90"
-                            max="90"
-                            class="form-input"
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label>Längengrad (Longitude)</label>
-                    <input
-                            type="number"
-                            [(ngModel)]="longitude"
-                            placeholder="z.B. 13.404954"
-                            step="0.000001"
-                            min="-180"
-                            max="180"
-                            class="form-input"
-                    />
-                </div>
-
-                <div class="form-actions">
-                    <button
-                            class="btn btn-primary"
-                            (click)="addWaypoint()"
-                            [disabled]="isAdding || !isValidCoordinate()"
-                    >
-                        <mat-icon *ngIf="!isAdding">add_location</mat-icon>
-                        <span *ngIf="!isAdding">Waypoint hinzufügen</span>
-                        <span *ngIf="isAdding">Wird hinzugefügt...</span>
-                    </button>
-
-                    <button
-                            class="btn btn-secondary"
-                            (click)="testLocations()"
-                            [disabled]="isAdding"
-                    >
-                        <mat-icon>science</mat-icon>
-                        Test-Locations
-                    </button>
-                </div>
+        <div class="waypoint-form">
+            <div class="form-group">
+                <label>Breitengrad (Latitude)</label>
+                <input
+                        type="number"
+                        [(ngModel)]="latitude"
+                        placeholder="z.B. 52.520008"
+                        step="0.000001"
+                        min="-90"
+                        max="90"
+                        class="form-input"
+                />
             </div>
 
-         
-            <div class="test-locations" *ngIf="showTestLocations">
-                <h4>Stadt-Koordinaten:</h4>
-                <div class="test-buttons">
-                    <button
-                            class="test-btn"
-                            (click)="setTestLocation('berlin')"
-                            title="Berlin, Deutschland"
-                    >
-                        🇩🇪 Berlin
-                    </button>
-                    <button
-                            class="test-btn"
-                            (click)="setTestLocation('paris')"
-                            title="Paris, Frankreich"
-                    >
-                        🇫🇷 Paris
-                    </button>
-                    <button
-                            class="test-btn"
-                            (click)="setTestLocation('zurich')"
-                            title="Zürich, Schweiz"
-                    >
-                        🇨🇭 Zürich
-                    </button>
-                    <button
-                            class="test-btn"
-                            (click)="setTestLocation('london')"
-                            title="London, UK (nicht mehr EU)"
-                    >
-                        🇬🇧 London
-                    </button>
-                    <button
-                            class="test-btn"
-                            (click)="setTestLocation('cairo')"
-                            title="Kairo, Ägypten (außerhalb Europa)"
-                    >
-                        🇪🇬 Kairo
-                    </button>
-                </div>
+            <div class="form-group">
+                <label>Längengrad (Longitude)</label>
+                <input
+                        type="number"
+                        [(ngModel)]="longitude"
+                        placeholder="z.B. 13.404954"
+                        step="0.000001"
+                        min="-180"
+                        max="180"
+                        class="form-input"
+                />
             </div>
 
-            <!-- Error Display -->
-            <div class="error-message" *ngIf="errorMessage">
-                <mat-icon>error</mat-icon>
-                <span>{{ errorMessage }}</span>
+            <div class="form-actions">
+                <button
+                        class="btn btn-primary"
+                        (click)="addWaypoint()"
+                        [disabled]="isAdding || !isValidCoordinate()"
+                >
+                    <mat-icon *ngIf="!isAdding">add_location</mat-icon>
+                    <span *ngIf="!isAdding">Waypoint hinzufügen</span>
+                    <span *ngIf="isAdding">Wird hinzugefügt...</span>
+                </button>
+
+                <button
+                        class="btn btn-secondary"
+                        (click)="testLocations()"
+                        [disabled]="isAdding"
+                >
+                    <mat-icon>science</mat-icon>
+                    Test-Locations
+                </button>
             </div>
+        </div>
+
+        <div class="test-locations" *ngIf="showTestLocations">
+            <h4>Stadt-Koordinaten:</h4>
+            <div class="test-buttons">
+                <button
+                        class="test-btn"
+                        (click)="setTestLocation('berlin')"
+                        title="Berlin, Deutschland"
+                >
+                    🇩🇪 Berlin
+                </button>
+                <button
+                        class="test-btn"
+                        (click)="setTestLocation('paris')"
+                        title="Paris, Frankreich"
+                >
+                    🇫🇷 Paris
+                </button>
+                <button
+                        class="test-btn"
+                        (click)="setTestLocation('zurich')"
+                        title="Zürich, Schweiz"
+                >
+                    🇨🇭 Zürich
+                </button>
+                <button
+                        class="test-btn"
+                        (click)="setTestLocation('london')"
+                        title="London, UK (nicht mehr EU)"
+                >
+                    🇬🇧 London
+                </button>
+                <button
+                        class="test-btn"
+                        (click)="setTestLocation('cairo')"
+                        title="Kairo, Ägypten (außerhalb Europa)"
+                >
+                    🇪🇬 Kairo
+                </button>
+            </div>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage }}</span>
         </div>
     `,
     styleUrls: ['./add-waypoint.component.css']
@@ -180,25 +174,19 @@ export class AddWaypointComponent {
 
             if (error.message) {
                 if (error.message.includes('AUTHORIZATION_ERROR:')) {
-                    // Autorisierungsfehler
                     displayMessage = error.message.replace('AUTHORIZATION_ERROR: ', '');
                 } else if (error.message.includes('LOCATION_ERROR:')) {
-                    // Geografischer Fehler
                     displayMessage = error.message.replace('LOCATION_ERROR: ', '');
                 } else if (error.message.includes('außerhalb') ||
                     error.message.includes('Waypoint') ||
                     error.message.includes('Diese Tour erlaubt')) {
-                    // Andere Validierungsfehler
                     displayMessage = error.message;
                 } else {
-                    // Sonstige Fehler mit spezifischer Nachricht
                     displayMessage = error.message;
                 }
             }
 
-
             this.errorMessage = displayMessage;
-
 
             this.snackBar.open(displayMessage, 'OK', {
                 duration: 5000,
