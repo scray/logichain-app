@@ -1,14 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* details.component.css - Neue Version mit Grid-Layout */
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-}
-
+/* Header Styles */
 .orange-header-content {
   display: flex;
   align-items: center;
@@ -33,6 +25,12 @@ body {
   border-radius: 50%;
   cursor: pointer;
   margin-right: 20px;
+  transition: all var(--transition-base);
+}
+
+.arrow-chip:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
 }
 
 .back-svg {
@@ -76,82 +74,340 @@ body {
   padding: 5px;
 }
 
-.edit-btn {
-  background-color: #FF5F1E;
-  border: 2px solid #FF5F1E;
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: var(--spacing-md);
+}
+
+.loading-state p {
+  color: var(--gray-600);
+  font-size: 1.1rem;
+}
+
+/* Main Container */
+.tour-details-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Sticky Action Bar */
+.action-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--spacing-xl);
+  animation: slideDown var(--transition-slow);
+}
+
+.action-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.status-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--gray-600);
+}
+
+.status-info mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--primary-orange);
   color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-lg);
   font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 24px;
-  margin-top: 30px;
+  font-size: 1rem;
   cursor: pointer;
-  display: inline-block;
-  text-decoration: none;
+  transition: all var(--transition-base);
 }
 
-.edit-btn:hover {
-  background-color: #e04c1a;
-  border-color: #e04c1a;
+.save-btn:hover:not(:disabled) {
+  background-color: #e54d1a;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
 }
 
-.edit-btn:disabled {
-  opacity: 0.6;
+.save-btn:disabled {
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-.intl-section {
-  margin-top: 40px;
-  margin-bottom: 40px;
+/* Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  align-items: start;
 }
 
-.titel {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
+.grid-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
 }
 
-.waypoint-table {
-  margin-top: 20px;
-}
-
-.table-container {
+/* Card Styles */
+.detail-card {
   background: white;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all var(--transition-base);
+  animation: fadeInUp var(--transition-slow);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.detail-card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
-th {
-  background-color: #f8f9fa;
-  padding: 15px;
-  text-align: left;
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background-color: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--gray-800);
+  flex: 1;
+}
+
+.card-header mat-icon {
+  color: var(--primary-orange);
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.badge {
+  background-color: var(--primary-orange);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #e9ecef;
 }
 
-td {
-  padding: 15px;
-  border-bottom: 1px solid #e9ecef;
-  color: #333;
+.card-content {
+  padding: var(--spacing-lg);
 }
 
-tr:hover {
-  background-color: #f8f9fa;
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
 }
 
-.selected-row {
-  background-color: #e3f2fd !important;
-  border: 2px solid #2196f3;
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.info-label {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  color: var(--gray-900);
+  font-weight: 600;
+}
+
+/* Waypoints Summary */
+.waypoints-summary {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--gray-700);
+}
+
+.summary-item mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--gray-500);
+}
+
+/* Waypoints List */
+.waypoints-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.waypoint-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.waypoint-item:hover {
+  background-color: var(--gray-50);
 }
 
 .waypoint-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary-orange);
+  color: white;
+  border-radius: 50%;
   font-weight: 600;
-  color: #666;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.waypoint-details {
+  flex: 1;
+}
+
+.waypoint-coords {
+  font-weight: 500;
+  color: var(--gray-800);
+  font-family: 'Courier New', monospace;
+}
+
+.waypoint-time {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-top: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-details-container {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .orange-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .right-header {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .action-bar-content {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger animation for cards */
+.detail-card:nth-child(1) { animation-delay: 0ms; }
+.detail-card:nth-child(2) { animation-delay: 100ms; }
+.detail-card:nth-child(3) { animation-delay: 200ms; }
+.detail-card:nth-child(4) { animation-delay: 300ms; }
+
+/* Custom scrollbar for waypoints list */
+.waypoints-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.waypoints-list::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 3px;
+}
+
+.waypoints-list::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: 3px;
+}
+
+.waypoints-list::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+/* Zusätzliche Graustufen-Variablen falls nicht in styles.css */
+:host {
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
+  --gray-600: #525252;
+  --gray-700: #404040;
+  --gray-800: #262626;
+  --gray-900: #171717;
+  --radius-full: 9999px;
 }

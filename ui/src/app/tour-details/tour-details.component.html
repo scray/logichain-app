@@ -20,59 +20,148 @@
 
     <!-- Main Content -->
     <div content>
-
-        <div *ngIf="!tour" style="padding: 20px; text-align: center;">
+        <!-- Loading State -->
+        <div *ngIf="!tour" class="loading-state">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
             <p>Tour wird geladen...</p>
         </div>
 
         <!-- Content when tour is loaded -->
-        <div *ngIf="tour">
+        <div *ngIf="tour" class="tour-details-container">
 
-            <button class="edit-btn"
-                    (click)="saveChanges()"
-                    [disabled]="isSaving"
-                    style="cursor: pointer;">
-                <span *ngIf="!isSaving">Änderungen speichern</span>
-                <span *ngIf="isSaving">Wird gespeichert...</span>
-            </button>
+            <!-- Sticky Action Bar -->
+            <div class="action-bar">
+                <div class="action-bar-content">
+                    <div class="status-info">
+                        <mat-icon>info</mat-icon>
+                        <span>Änderungen nicht gespeichert</span>
+                    </div>
+                    <button class="save-btn"
+                            (click)="saveChanges()"
+                            [disabled]="isSaving">
+                        <mat-icon *ngIf="!isSaving">save</mat-icon>
+                        <mat-progress-spinner *ngIf="isSaving" diameter="20" mode="indeterminate"></mat-progress-spinner>
+                        <span>{{isSaving ? 'Wird gespeichert...' : 'Änderungen speichern'}}</span>
+                    </button>
+                </div>
+            </div>
 
-            <section class="intl-section">
-                <h2 class="titel">Internationale Fahrten</h2>
+            <!-- Main Grid Layout -->
+            <div class="content-grid">
 
-                <app-checkbox-group
-                        [options]="checkboxOptions"
-                        (optionChanged)="onCheckboxGroupChange($event)">
-                </app-checkbox-group>
-            </section>
+                <!-- Left Column -->
+                <div class="grid-column">
 
+                    <!-- Tour Info Card -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <mat-icon>local_shipping</mat-icon>
+                            <h3>Tour Informationen</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">Tour Nummer</span>
+                                    <span class="info-value">{{tour.tourId}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Fahrer</span>
+                                    <span class="info-value">{{tour.userId}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Fahrzeug</span>
+                                    <span class="info-value">{{tour.vehiceId || 'Nicht zugewiesen'}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Startzeit</span>
+                                    <span class="info-value">{{formatDateTime(tour.startTime)}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <app-add-waypoint
-                    [tourId]="tourId"
-                    [userId]="'alice'"
-                    (waypointAdded)="onWaypointAdded($event)">
-            </app-add-waypoint>
+                    <!-- Internationale Fahrten Card -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <mat-icon>public</mat-icon>
+                            <h3>Internationale Fahrten</h3>
+                        </div>
+                        <div class="card-content">
+                            <app-checkbox-group
+                                    [options]="checkboxOptions"
+                                    (optionChanged)="onCheckboxGroupChange($event)">
+                            </app-checkbox-group>
+                        </div>
+                    </div>
 
-            <div class="waypoint-table" *ngIf="displayWaypoints.length > 0">
-                <h2 class="titel">Wegpunkte</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Waypoint</th>
-                            <th>Längengrad</th>
-                            <th>Breitengrad</th>
-                            <th>Timestamp</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let wp of displayWaypoints">
-                            <td class="waypoint-number">{{wp.idx}}</td>
-                            <td>{{wp.lon}}</td>
-                            <td>{{wp.lat}}</td>
-                            <td>{{wp.timestamp}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <!-- Waypoints Hinzufügen Card -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <mat-icon>add_location</mat-icon>
+                            <h3>Neuer Waypoint</h3>
+                        </div>
+                        <div class="card-content">
+                            <app-add-waypoint
+                                    [tourId]="tourId"
+                                    [userId]="'alice'"
+                                    (waypointAdded)="onWaypointAdded($event)">
+                            </app-add-waypoint>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="grid-column">
+
+                    <!-- Dokumente Card -->
+                    <div class="detail-card">
+                        <div class="card-header">
+                            <mat-icon>folder</mat-icon>
+                            <h3>Dokumente</h3>
+                            <span class="badge">{{documents.length}}</span>
+                        </div>
+                        <div class="card-content">
+                            <app-document-upload
+                                    [tourId]="tourId"
+                                    [userId]="'alice'"
+                                    [documents]="documents"
+                                    (documentUploaded)="onDocumentUploaded($event)"
+                                    (documentDeleted)="onDocumentDeleted($event)">
+                            </app-document-upload>
+                        </div>
+                    </div>
+
+                    <!-- Waypoints Liste Card -->
+                    <div class="detail-card" *ngIf="displayWaypoints.length > 0">
+                        <div class="card-header">
+                            <mat-icon>location_on</mat-icon>
+                            <h3>Wegpunkte</h3>
+                            <span class="badge">{{displayWaypoints.length}}</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="waypoints-summary">
+                                <div class="summary-item">
+                                    <mat-icon>schedule</mat-icon>
+                                    <span>{{getRouteDuration()}}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <mat-icon>route</mat-icon>
+                                    <span>{{displayWaypoints.length}} Stopps</span>
+                                </div>
+                            </div>
+                            <div class="waypoints-list">
+                                <div class="waypoint-item" *ngFor="let wp of displayWaypoints">
+                                    <div class="waypoint-number">{{wp.idx}}</div>
+                                    <div class="waypoint-details">
+                                        <div class="waypoint-coords">
+                                            {{wp.lat.toFixed(6)}}, {{wp.lon.toFixed(6)}}
+                                        </div>
+                                        <div class="waypoint-time">{{wp.timestamp}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
