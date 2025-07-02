@@ -94,7 +94,6 @@ export default class LedgerService {
    */
   async createTour(user: string = 'alice', tour: Tour): Promise<Tour | undefined> {
     try {
-      // Sicherstellen, dass internationaleFahrten gesetzt ist
       const tourWithDefaults: Tour = {
         ...tour,
         internationaleFahrten: tour.internationaleFahrten ?? this.getDefaultInternationaleFahrten()
@@ -116,15 +115,17 @@ export default class LedgerService {
 
         try {
           const errorData = JSON.parse(errorText);
-          if (errorData.type === 'USER_NOT_AUTHORIZED') {
+          if (errorData.type === 'ADMIN_ROLE_REQUIRED') {
+            throw new Error('AUTHORIZATION_ERROR: Admin-Rolle erforderlich um Touren zu erstellen');
+          } else if (errorData.type === 'USER_NOT_AUTHORIZED') {
             throw new Error('AUTHORIZATION_ERROR: ' + errorData.message);
           } else if (errorData.message) {
             throw new Error(errorData.message);
           }
         } catch (parseError) {
           // Falls kein JSON, verwende den Fehlertext direkt
-          if (errorText.includes('not authorized')) {
-            throw new Error('AUTHORIZATION_ERROR: ' + errorText);
+          if (errorText.includes('Admin role required')) {
+            throw new Error('AUTHORIZATION_ERROR: Admin-Rolle erforderlich');
           }
         }
 
@@ -133,7 +134,6 @@ export default class LedgerService {
 
       if (response.ok) {
         const createdTour = await response.json();
-        // Sicherstellen, dass die zurückgegebene Tour auch die Defaults hat
         return {
           ...createdTour,
           internationaleFahrten: this.migrateInternationaleFahrten(createdTour.internationaleFahrten)

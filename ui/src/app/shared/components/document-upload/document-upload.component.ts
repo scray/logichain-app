@@ -166,7 +166,11 @@ export class DocumentUploadComponent {
             let errorMessage = 'Fehler beim Upload';
 
             if (error.message) {
-                if (error.message.includes('AUTHORIZATION_ERROR:')) {
+                if (error.message.includes('ADMIN_ROLE_REQUIRED')) {
+                    errorMessage = 'Keine Berechtigung: Admin-Rolle erforderlich';
+                } else if (error.message.includes('Admin role required')) {
+                    errorMessage = 'Sie benötigen Admin-Rechte um Dokumente hochzuladen';
+                } else if (error.message.includes('AUTHORIZATION_ERROR:')) {
                     errorMessage = error.message.replace('AUTHORIZATION_ERROR: ', '');
                 } else {
                     errorMessage = error.message;

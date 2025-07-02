@@ -173,14 +173,14 @@ export class AddWaypointComponent {
             let displayMessage = 'Fehler beim Hinzufügen des Waypoints';
 
             if (error.message) {
-                if (error.message.includes('AUTHORIZATION_ERROR:')) {
+                if (error.message.includes('ADMIN_ROLE_REQUIRED')) {
+                    displayMessage = 'Keine Berechtigung: Admin-Rolle erforderlich';
+                } else if (error.message.includes('Admin role required')) {
+                    displayMessage = 'Sie benötigen Admin-Rechte um Waypoints hinzuzufügen';
+                } else if (error.message.includes('AUTHORIZATION_ERROR:')) {
                     displayMessage = error.message.replace('AUTHORIZATION_ERROR: ', '');
                 } else if (error.message.includes('LOCATION_ERROR:')) {
                     displayMessage = error.message.replace('LOCATION_ERROR: ', '');
-                } else if (error.message.includes('außerhalb') ||
-                    error.message.includes('Waypoint') ||
-                    error.message.includes('Diese Tour erlaubt')) {
-                    displayMessage = error.message;
                 } else {
                     displayMessage = error.message;
                 }

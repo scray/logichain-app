@@ -180,13 +180,11 @@ export class TourDetailsComponent implements OnInit {
     return `${minutes} Minuten`;
   }
 
-  // Handler für Checkbox-Gruppe
   onCheckboxGroupChange(event: {id: string, checked: boolean}) {
     console.log(`Checkbox ${event.id} changed to ${event.checked}`);
     this.onInternationalChange(event.id as keyof InternationaleFahrten, event.checked);
   }
 
-  // Handler für Checkbox-Änderungen
   onInternationalChange(type: keyof InternationaleFahrten, value: boolean) {
     if (!this.tour) {
       console.error('No tour loaded');
@@ -195,13 +193,11 @@ export class TourDetailsComponent implements OnInit {
 
     console.log(`Changing ${type} to ${value}`);
 
-    // Erstelle eine Kopie der aktuellen internationaleFahrten
     const newInternationalefahrten: InternationaleFahrten = {
       ...this.internationals,
       [type]: value
     };
 
-    // Logik für gegenseitige Ausschlüsse
     if ((type === 'eu' || type === 'eu_ch') && value) {
       newInternationalefahrten.inland = false;
     } else if (type === 'inland' && value) {
@@ -209,7 +205,6 @@ export class TourDetailsComponent implements OnInit {
       newInternationalefahrten.eu_ch = false;
     }
 
-    // Update the tour object
     this.tour = {
       ...this.tour,
       internationaleFahrten: newInternationalefahrten
@@ -237,10 +232,8 @@ export class TourDetailsComponent implements OnInit {
 
   onDocumentDeleted(fileName: string) {
     console.log('Document deleted:', fileName);
-    // Liste ist bereits im Component aktualisiert
   }
 
-  // Speichern der Änderungen
   async saveChanges() {
     console.log('saveChanges called');
 
@@ -281,11 +274,13 @@ export class TourDetailsComponent implements OnInit {
       let errorMessage = 'Fehler beim Speichern der Änderungen!';
 
       if (error.message) {
-        if (error.message.includes('AUTHORIZATION_ERROR:')) {
-          // Extrahiere die Fehlermeldung nach AUTHORIZATION_ERROR:
+        if (error.message.includes('ADMIN_ROLE_REQUIRED')) {
+          errorMessage = 'Keine Berechtigung: Admin-Rolle erforderlich';
+        } else if (error.message.includes('Admin role required')) {
+          errorMessage = 'Sie benötigen Admin-Rechte für diese Aktion';
+        } else if (error.message.includes('AUTHORIZATION_ERROR:')) {
           errorMessage = error.message.replace('AUTHORIZATION_ERROR: ', '');
         } else {
-          // Verwende die direkte Fehlermeldung
           errorMessage = error.message;
         }
       }
@@ -298,7 +293,6 @@ export class TourDetailsComponent implements OnInit {
       this.isSaving = false;
     }
   }
-
   goBack(): void {
     console.log('goBack called');
     this.location.back();
