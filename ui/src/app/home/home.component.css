@@ -203,3 +203,31 @@
   -webkit-mask: url('/assets/arrow.png') no-repeat center / contain;
 }
 
+.app-button {
+  background-color: white !important;
+  color: #E10A0A !important;
+  font-weight: 600 !important;
+  border: 2px solid white !important;
+  margin-left: auto;
+}
+
+.app-button:hover {
+  background-color: #E10A0A !important;
+  color: white !important;
+  border-color: white !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.app-button mat-icon {
+  margin-right: 8px;
+}
+
+
+.more-link:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.more-link:hover span {
+  color: #a50606;
+}
